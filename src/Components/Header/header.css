@@ -1,0 +1,12 @@
+.header{
+    text-align: center;
+}
+.table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+thead,th,td{
+    padding: 10px;
+}
