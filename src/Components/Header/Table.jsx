@@ -2,6 +2,7 @@
 import React from 'react';
 import './table.css'
 function Table({ data }) {
+
   return (
     <div className='table'> 
       <table>
