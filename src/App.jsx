@@ -1,10 +1,9 @@
-import Header from "./Components/Header/Header"
-import Test from "./Components/Test/Test"
+import Table from "./Components/Table"
+import './Components/style.css'
 function App() {
   return (
-    <div>
-      <Test/>
-      {/* <Header/> */}
+    <div className="main">
+      <Table/>
     </div>
   )
 }

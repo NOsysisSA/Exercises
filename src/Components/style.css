@@ -1,0 +1,13 @@
+tr,td{
+    border: 1px solid black;
+    text-align: center;
+    font-size: 20px;
+}
+.main{
+    display: flex;
+    justify-content: center;
+}
+.search{
+    display: flex;
+    justify-content: space-around;
+}
