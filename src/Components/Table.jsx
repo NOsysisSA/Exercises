@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import './style.css'
 import DataTable from './DataTable';
-import SortButton from './SortButton';
-import SearchInput from './SearchInput';
+
 
 function Table() {
   const [csvData, setCsvData] = useState([]);
   const [searchText, setSearchText] = useState('');
-
+  
   useEffect(() => {
     Papa.parse("https://raw.githubusercontent.com/lawlesst/vivo-sample-data/master/data/csv/people.csv", {
       header: true,
@@ -28,10 +27,8 @@ function Table() {
   return (
     <div>
         <div className='search'> 
-            <SearchInput searchText={searchText} setSearchText={setSearchText} />
-            <SortButton data={csvData} setData={setCsvData} />
         </div>
-        <DataTable data={filteredData} />
+        <DataTable data={filteredData}  />
     </div>
   );
 }

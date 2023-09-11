@@ -1,0 +1,16 @@
+
+.modal{
+  padding: 5px;
+  border: 1px solid black;
+  position: fixed;
+  background-color: #000000c9;
+  width: 150px;
+  border-radius: 20px;
+}
+input, button{
+  color: white;
+  background-color: black;
+}
+input{
+  width: 100px;
+}
