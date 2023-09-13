@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import DataTable from './DataTable';
-import '../Components/style.css'
+import '../Components/style.css';
 
 function Table() {
   const [csvData, setCsvData] = useState([]);
   const [searchText, setSearchText] = useState('');
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   useEffect(() => {
     Papa.parse("https://raw.githubusercontent.com/lawlesst/vivo-sample-data/master/data/csv/people.csv", {
       header: true,
@@ -19,20 +21,13 @@ function Table() {
     });
   }, []);
 
-  const filteredData = csvData.filter((row) =>
-  Object.values(row).some((value) => {
-    if (typeof value === 'string') {
-      return value.toLowerCase().includes(searchText.toLowerCase());
-    } else if (typeof value === 'number') {
-      return String(value).toLowerCase().includes(searchText.toLowerCase());
-    }
-    return false;
-  })
-);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <div>
-      <div className='search'> 
+      <div className='search'>
         <input
           type="text"
           value={searchText}
@@ -40,7 +35,7 @@ function Table() {
           placeholder="Search..."
         />
       </div>
-      <DataTable data={filteredData} />
+      <DataTable data={csvData} searchText={searchText} currentPage={currentPage} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
     </div>
   );
 }

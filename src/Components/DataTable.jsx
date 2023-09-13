@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./style.css";
 
-function DataTable({ data }) {
+function DataTable({ data, searchText, currentPage, itemsPerPage, onPageChange }) {
   const [sortColumn, setSortColumn] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
 
   const handleSort = (column) => {
     if (column === sortColumn) {
@@ -16,7 +14,17 @@ function DataTable({ data }) {
     }
   };
 
-  const sortedData = [...data];
+  const filteredData = data.filter((row) =>
+    Object.values(row).some((value) => {
+      if (typeof value === 'string' || typeof value === 'number') {
+        return String(value).toLowerCase().includes(searchText.toLowerCase());
+      }
+      return false;
+    })
+  );
+
+ 
+  const sortedData = [...filteredData];
 
   if (sortColumn) {
     sortedData.sort((a, b) => {
@@ -33,6 +41,7 @@ function DataTable({ data }) {
     });
   }
 
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, endIndex);
@@ -43,10 +52,6 @@ function DataTable({ data }) {
     { length: totalPages },
     (_, index) => index + 1
   );
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
 
   return (
     <div className="table">
@@ -80,7 +85,7 @@ function DataTable({ data }) {
           <button
             key={pageNumber}
             className={pageNumber === currentPage ? "active" : ""}
-            onClick={() => handlePageChange(pageNumber)}
+            onClick={() => onPageChange(pageNumber)}
           >
             {pageNumber}
           </button>
