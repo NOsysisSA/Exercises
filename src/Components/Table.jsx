@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
-import './style.css'
 import DataTable from './DataTable';
 
 
@@ -26,8 +25,6 @@ function Table() {
 
   return (
     <div>
-        <div className='search'> 
-        </div>
         <DataTable data={filteredData}  />
     </div>
   );

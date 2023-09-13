@@ -1,61 +1,116 @@
-import React, { useState } from 'react';
-import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-import './style.css'
-import Modal from './Modal'
+import React, { useState } from "react";
+import "./style.css";
+
 function DataTable({ data }) {
-
-
-  const [openModals, setOpenModals] = useState({
-    person_ID: false,
-    name: false,
-    first: false,
-    last: false,
-    middle: false,
-    title: false,
+  const [filterValues, setFilterValues] = useState({
+    person_ID:"",
+    name: "",
+    first: "",
+    last: "",
+    middle: "",
+    phone:"",
+    fax:"",
+    email: "",
+    title: "",
   });
 
-  const toggleModal = (column) => {
-    setOpenModals({
-      ...openModals,
-      [column]: !openModals[column],
-    });
+
+  const handleChange = (e, column) => {
+    const { value } = e.target;
+    setFilterValues((prevValues) => ({
+      ...prevValues,
+      [column]: value,
+    }));
   };
 
+  const filteredData = data.filter((row) => {
+    return Object.keys(filterValues).every((column) => {
+      if (row[column] === null) {
+        return true;
+      }
+      if (column === "person_ID" || column === "phone" || column === "fax") {
+        return String(row[column]).toLowerCase().includes(filterValues[column].toLowerCase());
+      }
+      return row[column].toLowerCase().includes(filterValues[column].toLowerCase());
+    });
+  });
+  
+  
+
+
   return (
+    <div> 
+
     <table>
       <thead>
         <tr>
-        <th>
-            person_ID {<button onClick={() => toggleModal('person_ID')}>{openModals.person_ID ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.person_ID && <Modal />}
+          <th>
+            person_ID <input
+              type="text"
+              value={filterValues.person_ID}
+              onChange={(e) => handleChange(e, "person_ID")}
+              />
           </th>
           <th>
-            name {<button onClick={() => toggleModal('name')}>{openModals.name ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.name && <Modal />}
+            name <input
+              type="text"
+              value={filterValues.name}
+              onChange={(e) => handleChange(e, "name")}
+              />
           </th>
           <th>
-            first {<button onClick={() => toggleModal('first')}>{openModals.first ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.first && <Modal />}
+            first <input
+              type="text"
+              value={filterValues.first}
+              onChange={(e) => handleChange(e, "first")}
+            />
           </th>
           <th>
-            last {<button onClick={() => toggleModal('last')}>{openModals.last ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.last && <Modal />}
+            last <input
+              type="text"
+              value={filterValues.last}
+              onChange={(e) => handleChange(e, "last")}
+              />
           </th>
           <th>
-          middle{<button onClick={() => toggleModal('middle')}>{openModals.middle  ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.middle && <Modal />}
+            middle <input
+              type="text"
+              value={filterValues.middle}
+              onChange={(e) => handleChange(e, "middle")}
+              />
           </th>
-          <th>email </th>
-          <th>phone </th>
-          <th>fax </th>
           <th>
-            title {<button onClick={() => toggleModal('title')}>{openModals.title ? <AiFillCaretUp /> : <AiFillCaretDown />}</button>}
-            {openModals.title && <Modal />}
+            email <input
+              type="text"
+              value={filterValues.email}
+              onChange={(e) => handleChange(e, "email")}
+              />
+          </th>
+          <th>
+            phone <input
+              type="text"
+              value={filterValues.phone}
+              onChange={(e) => handleChange(e, "phone")}
+              />
+          </th>
+          <th>
+            fax <input
+              type="text"
+              value={filterValues.fax}
+              onChange={(e) => handleChange(e, "fax")}
+              />
+          </th>
+          <th>
+            title <input
+              type="text"
+              value={filterValues.title}
+              onChange={(e) => handleChange(e, "title")}
+              />
           </th>
         </tr>
       </thead>
       <tbody>
-        {data.map((row, index) => (
+        {filteredData.map((row, index) => (
           <tr key={index}>
             <td>{row.person_ID}</td>
             <td>{row.name}</td>
@@ -70,6 +125,8 @@ function DataTable({ data }) {
         ))}
       </tbody>
     </table>
+    
+  </div>
   );
 }
 

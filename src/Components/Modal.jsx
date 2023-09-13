@@ -1,26 +1,9 @@
-import React from 'react';
-import './modal.css';
+import React from 'react'
 
-function Modal({ searchText, handleSearch, toggleSortOption, sortOption }) {
+function Modal() {
   return (
-    <div className='modal'>
-      <div>
-        <input
-          type="text"
-          placeholder="Поиск"
-          value={searchText}
-          onChange={handleSearch}
-        />
-        <label>
-          <input
-            type="checkbox"
-            checked={sortOption}
-            onChange={toggleSortOption}
-          />
-        </label>
-      </div>
-    </div>
-  );
+    <div>Modal</div>
+  )
 }
 
-export default Modal;
+export default Modal
