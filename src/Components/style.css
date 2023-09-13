@@ -6,8 +6,33 @@ tr,td{
 .main{
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .search{
     display: flex;
     justify-content: space-around;
+}
+th{
+    cursor: pointer;
+    border: 1px solid black;
+    transition: 0.3s;
+  }
+th:hover{
+    background-color: black;
+    color: white;
+}
+input{
+    font-size: 20px;
+    border-radius: 20px;
+}
+.pagitanion,button{
+    font-size: 30px;
+    margin: 20px;
+    border-radius: 20px;
+}
+.table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

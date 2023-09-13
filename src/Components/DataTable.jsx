@@ -2,20 +2,10 @@ import React, { useState } from "react";
 import "./style.css";
 
 function DataTable({ data }) {
-  const [filterValues, setFilterValues] = useState({
-    person_ID: "",
-    name: "",
-    first: "",
-    last: "",
-    middle: "",
-    phone: "",
-    fax: "",
-    email: "",
-    title: "",
-  });
-
   const [sortColumn, setSortColumn] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleSort = (column) => {
     if (column === sortColumn) {
@@ -26,31 +16,7 @@ function DataTable({ data }) {
     }
   };
 
-  const handleChange = (e, column) => {
-    const { value } = e.target;
-    setFilterValues((prevValues) => ({
-      ...prevValues,
-      [column]: value,
-    }));
-  };
-
-  const filteredData = data.filter((row) => {
-    return Object.keys(filterValues).every((column) => {
-      if (row[column] === null) {
-        return true;
-      }
-      if (column === "person_ID" || column === "phone" || column === "fax") {
-        return String(row[column])
-          .toLowerCase()
-          .includes(filterValues[column].toLowerCase());
-      }
-      return row[column]
-        .toLowerCase()
-        .includes(filterValues[column].toLowerCase());
-    });
-  });
-
-  const sortedData = [...filteredData];
+  const sortedData = [...data];
 
   if (sortColumn) {
     sortedData.sort((a, b) => {
@@ -67,110 +33,59 @@ function DataTable({ data }) {
     });
   }
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+
+  const pageNumbers = Array.from(
+    { length: totalPages },
+    (_, index) => index + 1
+  );
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
-    <div>
+    <div className="table">
       <table>
         <thead>
           <tr>
-            <th>
-              person_ID{" "}
-              <input
-                type="text"
-                value={filterValues.person_ID}
-                onChange={(e) => handleChange(e, "person_ID")}
-              />
-              <button onClick={() => handleSort("person_ID")}>Sort</button>
-            </th>
-            <th>
-              name{" "}
-              <input
-                type="text"
-                value={filterValues.name}
-                onChange={(e) => handleChange(e, "name")}
-              />
-              <button onClick={() => handleSort("name")}>Sort</button>
-            </th>
-            <th>
-              first{" "}
-              <input
-                type="text"
-                value={filterValues.first}
-                onChange={(e) => handleChange(e, "first")}
-              />
-              <button onClick={() => handleSort("first")}>Sort</button>
-            </th>
-            <th>
-              last{" "}
-              <input
-                type="text"
-                value={filterValues.last}
-                onChange={(e) => handleChange(e, "last")}
-              />
-              <button onClick={() => handleSort("last")}>Sort</button>
-            </th>
-            <th>
-              middle{" "}
-              <input
-                type="text"
-                value={filterValues.middle}
-                onChange={(e) => handleChange(e, "middle")}
-              />
-              <button onClick={() => handleSort("middle")}>Sort</button>
-            </th>
-            <th>
-              email{" "}
-              <input
-                type="text"
-                value={filterValues.email}
-                onChange={(e) => handleChange(e, "email")}
-              />
-              <button onClick={() => handleSort("email")}>Sort</button>
-            </th>
-            <th>
-              phone{" "}
-              <input
-                type="text"
-                value={filterValues.phone}
-                onChange={(e) => handleChange(e, "phone")}
-              />
-              <button onClick={() => handleSort("phone")}>Sort</button>
-            </th>
-            <th>
-              fax{" "}
-              <input
-                type="text"
-                value={filterValues.fax}
-                onChange={(e) => handleChange(e, "fax")}
-              />
-              <button onClick={() => handleSort("fax")}>Sort</button>
-            </th>
-            <th>
-              title{" "}
-              <input
-                type="text"
-                value={filterValues.title}
-                onChange={(e) => handleChange(e, "title")}
-              />
-              <button onClick={() => handleSort("title")}>Sort</button>
-            </th>
+            <th onClick={() => handleSort("person_ID")}>person_ID</th>
+            <th onClick={() => handleSort("name")}>name</th>
+            <th onClick={() => handleSort("first")}>first</th>
+            <th onClick={() => handleSort("last")}>last</th>
+            <th onClick={() => handleSort("middle")}>middle</th>
+            <th onClick={() => handleSort("email")}>email</th>
+            <th onClick={() => handleSort("phone")}>phone</th>
+            <th onClick={() => handleSort("fax")}>fax</th>
+            <th onClick={() => handleSort("title")}>title</th>
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((row, index) => (
+          {paginatedData.map((row, index) => (
             <tr key={index}>
-              <td>{row.person_ID}</td>
-              <td>{row.name}</td>
-              <td>{row.first}</td>
-              <td>{row.last}</td>
-              <td>{row.middle}</td>
-              <td>{row.email}</td>
-              <td>{row.phone}</td>
-              <td>{row.fax}</td>
-              <td>{row.title}</td>
+              {Object.keys(row).map((column) => (
+                <td key={column}>{row[column]}</td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
+
+      <div className="pagination">
+        {pageNumbers.map((pageNumber) => (
+          <button
+            key={pageNumber}
+            className={pageNumber === currentPage ? "active" : ""}
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

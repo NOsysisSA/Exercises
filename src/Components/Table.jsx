@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import DataTable from './DataTable';
-
+import '../Components/style.css'
 
 function Table() {
   const [csvData, setCsvData] = useState([]);
@@ -20,12 +20,27 @@ function Table() {
   }, []);
 
   const filteredData = csvData.filter((row) =>
-  row.name.toLowerCase().includes(searchText.toLowerCase())
+  Object.values(row).some((value) => {
+    if (typeof value === 'string') {
+      return value.toLowerCase().includes(searchText.toLowerCase());
+    } else if (typeof value === 'number') {
+      return String(value).toLowerCase().includes(searchText.toLowerCase());
+    }
+    return false;
+  })
 );
 
   return (
     <div>
-        <DataTable data={filteredData}  />
+      <div className='search'> 
+        <input
+          type="text"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          placeholder="Search..."
+        />
+      </div>
+      <DataTable data={filteredData} />
     </div>
   );
 }
