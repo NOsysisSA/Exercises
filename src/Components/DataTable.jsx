@@ -61,19 +61,21 @@ function DataTable({
     <div className="table">
       <table>
         <thead>
-          <tr>
-            {Object.keys(data[0]).map((item, index) => (
-              <th key={index} onClick={() => handleSort(item)}>
-                {item}
-              </th>
-            ))}
-          </tr>
+          {data.length > 0 && (
+            <tr>
+              {Object.keys(data[0]).map((item, index) => (
+                <th style={{ width: index === 0 ? '5%' : '10%' }} key={index} onClick={() => handleSort(item)}>
+                  {item}
+                </th>
+              ))}
+            </tr>
+          )}
         </thead>
         <tbody>
           {paginatedData.map((row, index) => (
             <tr key={index}>
               {Object.keys(row).map((column) => (
-                <td key={column}>{row[column]}</td>
+                <td style={{ width: index === 0 ? '5%' : '10%' }} key={column}>{row[column]}</td>
               ))}
             </tr>
           ))}

@@ -1,11 +1,12 @@
-import Table from "./Components/Table"
-import './Components/style.css'
+import React from 'react';
+import Table from "./Components/Table";
+
 function App() {
   return (
     <div className="main">
-      <Table/>
+      <Table />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
