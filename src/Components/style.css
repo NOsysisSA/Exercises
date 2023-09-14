@@ -1,38 +1,55 @@
-tr,td{
+tr, td {
     border: 1px solid black;
     text-align: center;
     font-size: 20px;
-}
-.main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.search{
-    display: flex;
-    justify-content: space-around;
-}
-th{
-    cursor: pointer;
-    border: 1px solid black;
-    transition: 0.3s;
+    padding: 5px;
   }
-th:hover{
-    background-color: black;
-    color: white;
-}
-input{
+  
+
+input {
     font-size: 20px;
     border-radius: 20px;
-}
-.pagitanion,button{
+  }
+  
+
+  button {
     font-size: 30px;
     margin: 20px;
     border-radius: 20px;
-}
-.table{
+  }
+  
+
+  .table {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
+  }
+  
+
+  button.active {
+    background-color: black;
+    color: #fff;
+    border: 1px solid white;
+    transition: 0.3s;
+  }
+  
+
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .search {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+
+  th {
+    cursor: pointer;
+    border: 1px solid black;
+    transition: 0.3s;
+  }

@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./style.css";
 
-function DataTable({ data, searchText, currentPage, itemsPerPage, onPageChange }) {
+function DataTable({
+  data,
+  searchText,
+  currentPage,
+  itemsPerPage,
+  onPageChange,
+}) {
   const [sortColumn, setSortColumn] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
 
@@ -16,14 +22,13 @@ function DataTable({ data, searchText, currentPage, itemsPerPage, onPageChange }
 
   const filteredData = data.filter((row) =>
     Object.values(row).some((value) => {
-      if (typeof value === 'string' || typeof value === 'number') {
+      if (typeof value === "string" || typeof value === "number") {
         return String(value).toLowerCase().includes(searchText.toLowerCase());
       }
       return false;
     })
   );
 
- 
   const sortedData = [...filteredData];
 
   if (sortColumn) {
@@ -41,7 +46,6 @@ function DataTable({ data, searchText, currentPage, itemsPerPage, onPageChange }
     });
   }
 
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, endIndex);
@@ -58,15 +62,11 @@ function DataTable({ data, searchText, currentPage, itemsPerPage, onPageChange }
       <table>
         <thead>
           <tr>
-            <th onClick={() => handleSort("person_ID")}>person_ID</th>
-            <th onClick={() => handleSort("name")}>name</th>
-            <th onClick={() => handleSort("first")}>first</th>
-            <th onClick={() => handleSort("last")}>last</th>
-            <th onClick={() => handleSort("middle")}>middle</th>
-            <th onClick={() => handleSort("email")}>email</th>
-            <th onClick={() => handleSort("phone")}>phone</th>
-            <th onClick={() => handleSort("fax")}>fax</th>
-            <th onClick={() => handleSort("title")}>title</th>
+            {Object.keys(data[0]).map((item, index) => (
+              <th key={index} onClick={() => handleSort(item)}>
+                {item}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
